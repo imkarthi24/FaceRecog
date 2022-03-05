@@ -18,12 +18,16 @@ args = vars(ap.parse_args())
 # load dlib's HOG + Linear SVM face detector
 print("[INFO] loading HOG + Linear SVM face detector...")
 detector = dlib.get_frontal_face_detector()
+
 # load the input image from disk, resize it, and convert it from
 # BGR to RGB channel ordering (which is what dlib expects)
+
 image = cv2.imread(args["image"])
 image = imutils.resize(image, width=900)
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
 # perform face detection using dlib's face detector
+
 start = time.time()
 print("[INFO] performing face detection with dlib...")
 rects = detector(rgb, args["upsample"])
@@ -38,20 +42,15 @@ boxes = [convert_and_trim_bb(image, r) for r in rects]
 
 
 
-i =0
+i = 0
 # loop over the bounding boxes
 for (x, y, w, h) in boxes:
 	# draw the bounding box on our image
-	print(x,y,w,h)
-	# cv2.imwrite("detected_faces\ " + "kk" + "." + str(i) + ".jpg",
-	#  				image[y-25:y + h+25, x-25:x+25 + w])
-	# cv2.rectangle(image, (x-25, y-25), (x + w +25, y + h+25), (0, 255, 0), 2)
+	cv2.imwrite("detected_faces\ " + "face" + "_" + str(i) + ".jpg",
+				image[y-50:y + h+20, x-25:x + w+25])
+	cv2.rectangle(image, (x-25 , y-60 ), (x + w+25, y + h+25), (0, 255, 0), 2)
 
-	cv2.imwrite("detected_faces\ " + "kk" + "." + str(i) + ".jpg",
-				image[y:y + h, x:x + w])
-	cv2.rectangle(image, (x , y ), (x + w, y + h), (0, 255, 0), 2)
-
-	i=i+1
-# show the output image
-cv2.imshow("Output", image)
-cv2.waitKey(0)
+	i = i+1
+#
+# cv2.imshow("Output", image)
+# cv2.waitKey(0)
